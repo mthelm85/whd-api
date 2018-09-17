@@ -1,6 +1,7 @@
 const bodyParser = require('body-parser'),
       cors = require('cors'),
       express = require('express'),
+      moment = require('moment'),
       mongoClient = require('mongodb').MongoClient,
       morgan = require('morgan')
 
@@ -26,7 +27,7 @@ mongoClient.connect(configDB.url, {useNewUrlParser: true}, (err, client) => {
 
   const db = client.db('whd-api')
 
-  require('./routes.js')(app, db)
+  require('./routes.js')(app, db, moment)
 
   app.listen(port, () => {
     console.log(`The API is accessible on port ${port}`)
