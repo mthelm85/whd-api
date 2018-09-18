@@ -45,8 +45,25 @@ module.exports = (app, db, moment) => {
     })
   })
 
-  // app.get('/multi', (req, res) => {
-  //
-  // })
+  app.get('/', (req, res) => {
+    let params = []
+    if (req.query.zip_cd) {
+      params.push({ 'zip_cd': Number(req.query.zip_cd) })
+    }
+    if (req.query.end_dt) {
+      params.push({
+        'findings_end_date': {
+          '$gte': new Date(moment(req.query.start_dt, 'YYYY-MM-DD').toISOString()),
+          '$lte': new Date(moment(req.query.end_dt, 'YYYY-MM-DD').toISOString())
+        }
+      })
+    }
+    db.collection('enforcement_data')
+    .find({ '$and': params })
+    .toArray((err, docs) => {
+      if (err) res.json({ error: err })
+      res.json({ results: docs })
+    })
+  })
 
 }
