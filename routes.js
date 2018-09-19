@@ -66,4 +66,13 @@ module.exports = (app, db, moment) => {
     })
   })
 
+  app.get('/zip-latlng', (req, res) => {
+    db.collection('zip_latlng')
+    .find({ 'ZIP': req.query.zip })
+    .toArray((err, doc) => {
+      if (err) res.json({ error: err })
+      res.json({ results: doc })
+    })
+  })
+
 }
