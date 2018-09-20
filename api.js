@@ -12,7 +12,8 @@ const app = express(),
 app.use(morgan('dev'))
 app.use(cors({
   origin:[
-    'http://localhost:8080'
+    'http://localhost:8080',
+    '*'
   ],
   methods:['GET','POST', 'PATCH'],
   credentials: true
