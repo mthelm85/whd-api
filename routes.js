@@ -66,12 +66,12 @@ module.exports = (app, db, moment) => {
     })
   })
 
-  app.get('/zip-latlng', (req, res) => {
+  app.post('/zip-latlng', (req, res) => {
     db.collection('zip_latlng')
-    .find({ 'ZIP': req.query.zip })
-    .toArray((err, doc) => {
+    .find({ 'ZIP': { '$in': req.body.zip } })
+    .toArray((err, docs) => {
       if (err) res.json({ error: err })
-      res.json({ results: doc })
+      res.json({ results: docs })
     })
   })
 
